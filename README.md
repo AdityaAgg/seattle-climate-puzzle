@@ -51,7 +51,7 @@ The app will open in your browser at [http://localhost:3000](http://localhost:30
 
 This project is configured for automatic deployment to GitHub Pages. The live site is available at:
 
-**https://adityaaggarwal.github.io/seattle-climate-puzzle**
+**https://adityaagg.github.io/seattle-climate-puzzle**
 
 To deploy updates:
 ```bash
