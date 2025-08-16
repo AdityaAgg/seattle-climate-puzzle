@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/seattle-climate-puzzle/static/css/main.d53277c1.css",
-    "main.js": "/seattle-climate-puzzle/static/js/main.9d6b5535.js",
+    "main.css": "/seattle-climate-puzzle/static/css/main.74542aad.css",
+    "main.js": "/seattle-climate-puzzle/static/js/main.94306b78.js",
     "static/js/453.ba52713c.chunk.js": "/seattle-climate-puzzle/static/js/453.ba52713c.chunk.js",
     "index.html": "/seattle-climate-puzzle/index.html",
-    "main.d53277c1.css.map": "/seattle-climate-puzzle/static/css/main.d53277c1.css.map",
-    "main.9d6b5535.js.map": "/seattle-climate-puzzle/static/js/main.9d6b5535.js.map",
+    "main.74542aad.css.map": "/seattle-climate-puzzle/static/css/main.74542aad.css.map",
+    "main.94306b78.js.map": "/seattle-climate-puzzle/static/js/main.94306b78.js.map",
     "453.ba52713c.chunk.js.map": "/seattle-climate-puzzle/static/js/453.ba52713c.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.d53277c1.css",
-    "static/js/main.9d6b5535.js"
+    "static/css/main.74542aad.css",
+    "static/js/main.94306b78.js"
   ]
 }
