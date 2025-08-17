@@ -17,7 +17,7 @@ const CombinedGallery = () => {
 
   // Generate random 10-letter alphabet string for photo names
   const generatePhotoName = () => {
-    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const alphabet = 'abcdefghijklmnopqrstuvwxyz';
     let result = '';
     for (let i = 0; i < 10; i++) {
       result += alphabet.charAt(Math.floor(Math.random() * alphabet.length));
