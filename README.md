@@ -1,81 +1,44 @@
 # Seattle Climate Puzzle
 
-An interactive React application exploring climate data and patterns in the Seattle area.
-
-## About
-
-This project presents climate information and interactive puzzles related to Seattle's weather patterns, seasonal changes, and environmental data. Users can explore various climate-related challenges and learn about the region's unique weather characteristics.
+An interactive web application showcasing the Seattle Climate Puzzle project from the Seattle Design Fair 2025.
 
 ## Features
 
-- Interactive climate data visualization
-- Weather pattern puzzles and challenges
-- Seasonal climate information
-- Responsive design for all devices
+- **🍁 Maple Leaf Photo Gallery**: Interactive gallery where photos are transformed into beautiful maple leaf shapes
+- **📸 Cloud Storage**: Photos uploaded to Cloudinary for secure cloud storage
+- **🎨 Interactive Canvas**: Figma-like pan and zoom functionality for navigating the gallery
+- **📱 Responsive Design**: Works seamlessly on desktop and mobile devices
+- **💾 Local Persistence**: Photos persist across browser sessions using localStorage
+
+## Technology Stack
+
+- **Frontend**: React.js with modern hooks and functional components
+- **Styling**: CSS with Tailwind utility classes
+- **Cloud Storage**: Cloudinary for photo uploads and management
+- **State Management**: React useState and useEffect hooks
+- **Photo Processing**: SVG masking for maple leaf shapes
 
 ## Getting Started
 
-### Prerequisites
+1. Clone the repository
+2. Install dependencies: `npm install`
+3. Start the development server: `npm start`
+4. Open [http://localhost:3000](http://localhost:3000) in your browser
 
-- Node.js (version 14 or higher)
-- npm or yarn
+## Usage
 
-### Installation
+- **Upload Photos**: Click the upload button to add photos to your maple leaf collection
+- **Navigate Gallery**: Use mouse drag to pan and scroll to zoom
+- **Reset View**: Click "Reset View" to center and reset zoom
+- **Manage Photos**: Remove individual photos or clear the entire gallery
 
-1. Clone the repository:
-```bash
-git clone https://github.com/adityaaggarwal/seattle-climate-puzzle.git
-cd seattle-climate-puzzle
-```
+## Project Structure
 
-2. Install dependencies:
-```bash
-npm install
-```
-
-3. Start the development server:
-```bash
-npm start
-```
-
-The app will open in your browser at [http://localhost:3000](http://localhost:3000).
-
-## Available Scripts
-
-- `npm start` - Runs the app in development mode
-- `npm test` - Launches the test runner
-- `npm run build` - Builds the app for production
-- `npm run deploy` - Deploys the app to GitHub Pages
-
-## Deployment
-
-This project is configured for automatic deployment to GitHub Pages. The live site is available at:
-
-**https://adityaagg.github.io/seattle-climate-puzzle**
-
-To deploy updates:
-```bash
-npm run deploy
-```
-
-## Technologies Used
-
-- React 19
-- Create React App
-- GitHub Pages
-- Modern JavaScript (ES6+)
+- `src/components/CombinedGallery.js` - Main gallery component
+- `src/components/MapleLeafCanvas.js` - Interactive canvas for photo display
+- `src/components/UploadControls.js` - Photo upload and gallery controls
+- `src/components/GalleryFooter.js` - Gallery footer and status display
 
 ## Contributing
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
-
-## License
-
-This project is open source and available under the [MIT License](LICENSE).
-
-## Learn More
-
-To learn more about React, check out the [React documentation](https://reactjs.org/).
+This project was created for the Seattle Design Fair 2025. For questions or contributions, please contact the project team.
