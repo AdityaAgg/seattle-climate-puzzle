@@ -142,7 +142,7 @@ const CombinedGallery = () => {
         });
       }, 200);
 
-      setUploadStatus('Uploading to Cloudinary...');
+      setUploadStatus('Uploading your photo...');
 
       // Upload to Cloudinary
       const uploadUrl = `${CLOUDINARY_CONFIG.apiUrl}/${CLOUDINARY_CONFIG.cloudName}/image/upload`;
@@ -242,7 +242,7 @@ const CombinedGallery = () => {
   };
 
   const refreshGallery = async () => {
-    console.log('Refreshing gallery from Cloudinary...');
+    console.log('Refreshing gallery...');
     // This will use cache busting to ensure fresh data
     await loadExistingPhotos();
   };
