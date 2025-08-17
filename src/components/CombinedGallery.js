@@ -15,6 +15,16 @@ const CombinedGallery = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [isPhotoViewerOpen, setIsPhotoViewerOpen] = useState(false);
 
+  // Generate random 10-letter alphabet string for photo names
+  const generatePhotoName = () => {
+    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    let result = '';
+    for (let i = 0; i < 10; i++) {
+      result += alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+    }
+    return result;
+  };
+
   // Cloudinary Configuration
   const CLOUDINARY_CONFIG = {
     cloudName: 'dx3qkqdkp',
@@ -49,9 +59,9 @@ const CombinedGallery = () => {
             const existingImages = data.resources.map((resource, index) => ({
               id: `cloudinary-${resource.public_id}-${index}`,
               src: `https://res.cloudinary.com/${CLOUDINARY_CONFIG.cloudName}/image/upload/v${resource.version}/${resource.public_id}`,
-              alt: resource.public_id.split('/').pop() || 'Maple Leaf Photo',
+              alt: generatePhotoName(),
               uploadedAt: new Date(resource.created_at).toISOString(),
-              fileName: resource.public_id.split('/').pop() || 'Photo',
+              fileName: generatePhotoName(),
               fileSize: resource.bytes || 0,
               cloudinaryId: resource.public_id,
               cloudinaryUrl: `https://res.cloudinary.com/${CLOUDINARY_CONFIG.cloudName}/image/upload/v${resource.version}/${resource.public_id}`,
@@ -81,7 +91,13 @@ const CombinedGallery = () => {
         try {
           const parsedImages = JSON.parse(savedImages);
           if (Array.isArray(parsedImages) && parsedImages.length > 0) {
-            setImages(parsedImages);
+            // Update existing images with generated names for consistency
+            const updatedImages = parsedImages.map(image => ({
+              ...image,
+              alt: image.alt || generatePhotoName(),
+              fileName: image.fileName || generatePhotoName()
+            }));
+            setImages(updatedImages);
             setLoading(false);
             return;
           }
@@ -158,12 +174,13 @@ const CombinedGallery = () => {
       await new Promise(resolve => setTimeout(resolve, 500));
 
       // Add the image to the gallery with Cloudinary data
+      const generatedName = generatePhotoName();
       const newImage = {
         id: Date.now() + Math.random(),
         src: data.secure_url, // Cloudinary's secure HTTPS URL
-        alt: file.name,
+        alt: generatedName,
         uploadedAt: new Date().toISOString(),
-        fileName: file.name,
+        fileName: generatedName,
         fileSize: file.size,
         cloudinaryId: data.public_id,
         cloudinaryUrl: data.secure_url,
