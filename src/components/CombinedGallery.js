@@ -58,21 +58,32 @@ const CombinedGallery = () => {
           const data = await response.json();
           
           if (data.resources && data.resources.length > 0) {
-            const serverImages = data.resources.map((resource, index) => ({
-              id: `cloudinary-${resource.public_id}-${index}`,
-              src: `https://res.cloudinary.com/${CLOUDINARY_CONFIG.cloudName}/image/upload/v${resource.version}/${resource.public_id}`,
-              alt: resource.public_id || generatePhotoName(),
-              uploadedAt: new Date(resource.created_at).toISOString(),
-              fileName: resource.public_id || generatePhotoName(),
-              fileSize: resource.bytes || 0,
-              cloudinaryId: resource.public_id,
-              cloudinaryUrl: `https://res.cloudinary.com/${CLOUDINARY_CONFIG.cloudName}/image/upload/v${resource.version}/${resource.public_id}`,
-              cloudinaryVersion: resource.version,
-              cloudinaryFormat: resource.format,
-              cloudinaryWidth: resource.width,
-              cloudinaryHeight: resource.height,
-              isLocalUpload: false
-            }));
+            const serverImages = data.resources.map((resource, index) => {
+              // Try to extract filename from context, fallback to public_id, then generate
+              let fileName = generatePhotoName();
+              if (resource.context && resource.context.filename) {
+                fileName = resource.context.filename;
+              } else if (resource.public_id) {
+                fileName = resource.public_id;
+              }
+              
+              return {
+                id: `cloudinary-${resource.public_id}-${index}`,
+                src: `https://res.cloudinary.com/${CLOUDINARY_CONFIG.cloudName}/image/upload/v${resource.version}/${resource.public_id}`,
+                alt: fileName,
+                uploadedAt: new Date(resource.created_at).toISOString(),
+                fileName: fileName,
+                fileSize: resource.bytes || 0,
+                cloudinaryId: resource.public_id,
+                cloudinaryUrl: `https://res.cloudinary.com/${CLOUDINARY_CONFIG.cloudName}/image/upload/v${resource.version}/${resource.public_id}`,
+                cloudinaryVersion: resource.version,
+                cloudinaryFormat: resource.format,
+                cloudinaryWidth: resource.width,
+                cloudinaryHeight: resource.height,
+                isLocalUpload: false,
+                originalFilename: fileName
+              };
+            });
             
             // Get local uploads that might not be on server yet
             const savedImages = localStorage.getItem('mapleLeafGalleryImages');
@@ -271,8 +282,8 @@ const CombinedGallery = () => {
       formData.append('upload_preset', CLOUDINARY_CONFIG.uploadPreset);
       formData.append('tags', 'maple-leaf'); // Add maple-leaf tag for organization
       
-      // Preserve original filename by setting public_id
-      formData.append('public_id', originalName);
+      // Store original filename in context for later retrieval
+      formData.append('context', `filename=${originalName}`);
 
       // Simulate upload progress
       const progressInterval = setInterval(() => {
@@ -312,17 +323,18 @@ const CombinedGallery = () => {
       const newImage = {
         id: Date.now() + Math.random(),
         src: data.secure_url, // Cloudinary's secure HTTPS URL
-        alt: originalName,
+        alt: originalName, // Keep original name for display
         uploadedAt: new Date().toISOString(),
-        fileName: originalName,
+        fileName: originalName, // Keep original name for display
         fileSize: file.size,
-        cloudinaryId: data.public_id,
+        cloudinaryId: data.public_id, // Use Cloudinary's generated ID
         cloudinaryUrl: data.secure_url,
         cloudinaryVersion: data.version,
         cloudinaryFormat: data.format,
         cloudinaryWidth: data.width,
         cloudinaryHeight: data.height,
-        isLocalUpload: true // Mark as locally uploaded
+        isLocalUpload: true, // Mark as locally uploaded
+        originalFilename: originalName // Store original filename for reference
       };
 
       // Add to local state and localStorage immediately
@@ -402,21 +414,32 @@ const CombinedGallery = () => {
         const data = await response.json();
         
         if (data.resources && data.resources.length > 0) {
-          const serverImages = data.resources.map((resource, index) => ({
-            id: `cloudinary-${resource.public_id}-${index}`,
-            src: `https://res.cloudinary.com/${CLOUDINARY_CONFIG.cloudName}/image/upload/v${resource.version}/${resource.public_id}`,
-            alt: resource.public_id || generatePhotoName(),
-            uploadedAt: new Date(resource.created_at).toISOString(),
-            fileName: resource.public_id || generatePhotoName(),
-            fileSize: resource.bytes || 0,
-            cloudinaryId: resource.public_id,
-            cloudinaryUrl: `https://res.cloudinary.com/${CLOUDINARY_CONFIG.cloudName}/image/upload/v${resource.version}/${resource.public_id}`,
-            cloudinaryVersion: resource.version,
-            cloudinaryFormat: resource.format,
-            cloudinaryWidth: resource.width,
-            cloudinaryHeight: resource.height,
-            isLocalUpload: false
-          }));
+          const serverImages = data.resources.map((resource, index) => {
+            // Try to extract filename from context, fallback to public_id, then generate
+            let fileName = generatePhotoName();
+            if (resource.context && resource.context.filename) {
+              fileName = resource.context.filename;
+            } else if (resource.public_id) {
+              fileName = resource.public_id;
+            }
+            
+            return {
+              id: `cloudinary-${resource.public_id}-${index}`,
+              src: `https://res.cloudinary.com/${CLOUDINARY_CONFIG.cloudName}/image/upload/v${resource.version}/${resource.public_id}`,
+              alt: fileName,
+              uploadedAt: new Date(resource.created_at).toISOString(),
+              fileName: fileName,
+              fileSize: resource.bytes || 0,
+              cloudinaryId: resource.public_id,
+              cloudinaryUrl: `https://res.cloudinary.com/${CLOUDINARY_CONFIG.cloudName}/image/upload/v${resource.version}/${resource.public_id}`,
+              cloudinaryVersion: resource.version,
+              cloudinaryFormat: resource.format,
+              cloudinaryWidth: resource.width,
+              cloudinaryHeight: resource.height,
+              isLocalUpload: false,
+              originalFilename: fileName
+            };
+          });
           
           // Get local uploads that might not be on server yet
           const savedImages = localStorage.getItem('mapleLeafGalleryImages');
