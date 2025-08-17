@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import UploadControls from './UploadControls';
 import MapleLeafCanvas from './MapleLeafCanvas';
 import GalleryFooter from './GalleryFooter';
@@ -23,11 +23,7 @@ const CombinedGallery = () => {
   };
 
   // Load all existing photos from Cloudinary when component mounts
-  useEffect(() => {
-    loadExistingPhotos();
-  }, []);
-
-  const loadExistingPhotos = async () => {
+  const loadExistingPhotos = useCallback(async () => {
     try {
       setLoading(true);
       console.log('Attempting to fetch photos from Cloudinary...');
@@ -96,7 +92,11 @@ const CombinedGallery = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [CLOUDINARY_CONFIG.cloudName]);
+
+  useEffect(() => {
+    loadExistingPhotos();
+  }, [loadExistingPhotos]);
 
   // Save images to localStorage whenever images change
   useEffect(() => {

@@ -1,7 +1,13 @@
-import React from 'react';
+import React, { useEffect, useCallback } from 'react';
 
 const PhotoViewer = ({ isOpen, image, onClose }) => {
-  React.useEffect(() => {
+  const handleKeyDown = useCallback((e) => {
+    if (e.key === 'Escape') {
+      onClose();
+    }
+  }, [onClose]);
+
+  useEffect(() => {
     if (isOpen) {
       document.addEventListener('keydown', handleKeyDown);
       document.body.style.overflow = 'hidden';
@@ -11,18 +17,12 @@ const PhotoViewer = ({ isOpen, image, onClose }) => {
         document.body.style.overflow = 'unset';
       };
     }
-  }, [isOpen]);
+  }, [isOpen, handleKeyDown]);
 
   if (!isOpen || !image) return null;
 
   const handleBackdropClick = (e) => {
     if (e.target === e.currentTarget) {
-      onClose();
-    }
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === 'Escape') {
       onClose();
     }
   };

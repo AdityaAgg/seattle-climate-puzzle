@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
 
 const MapleLeafCanvas = ({ 
   images, 
@@ -146,10 +146,10 @@ const MapleLeafCanvas = ({
     setLastTouchDistance(0);
   };
 
-  const resetView = () => {
+  const resetView = useCallback(() => {
     onPanChange({ x: 0, y: 0 });
     onZoomChange(1);
-  };
+  }, [onPanChange, onZoomChange]);
 
   // Expose resetView to parent component
   useEffect(() => {
@@ -158,7 +158,7 @@ const MapleLeafCanvas = ({
     } else {
       window.resetMapleLeafView = resetView;
     }
-  }, []);
+  }, [resetView]);
 
   const getOrganicPositions = (count) => {
     const positions = [];

@@ -42,16 +42,6 @@ const Zine = () => {
     { id: 16, src: '/images/zine/zine16.jpeg', alt: 'Zine Page 16' }
   ];
 
-  const getPageWidth = () => {
-    if (scrollContainerRef.current) {
-      const container = scrollContainerRef.current;
-      // Get the actual width of the first image element
-      const firstImage = container.querySelector('img');
-      return firstImage ? firstImage.offsetWidth : 800;
-    }
-    return 800; // fallback
-  };
-
   const startScrolling = (direction) => {
     if (scrollContainerRef.current) {
       const container = scrollContainerRef.current;
