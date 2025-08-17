@@ -15,13 +15,9 @@ const MapleLeafCanvas = ({
   const [lastTouchDistance, setLastTouchDistance] = useState(0);
   const canvasRef = useRef(null);
 
-  // Debug logging
+  // Component mounted
   useEffect(() => {
-    console.log('MapleLeafCanvas received images:', images);
-    console.log('Images count:', images.length);
-    if (images.length > 0) {
-      console.log('First image data:', images[0]);
-    }
+    // Component ready
   }, [images]);
 
   // Handle window resize for responsive positioning

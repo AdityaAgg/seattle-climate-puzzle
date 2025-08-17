@@ -82,7 +82,7 @@ const CombinedGallery = () => {
                 const parsedImages = JSON.parse(savedImages);
                 localUploads = parsedImages.filter(img => img.isLocalUpload === true);
               } catch (e) {
-                console.log('Error parsing localStorage images:', e);
+                // Error parsing localStorage images
               }
             }
             
@@ -108,7 +108,7 @@ const CombinedGallery = () => {
                   return;
                 }
               } catch (e) {
-                console.log('Error parsing localStorage images:', e);
+                // Error parsing localStorage images
               }
             }
           }
@@ -130,7 +130,7 @@ const CombinedGallery = () => {
             return;
           }
         } catch (e) {
-          console.log('Error parsing localStorage images:', e);
+          // Error parsing localStorage images
         }
       }
       
@@ -338,7 +338,7 @@ const CombinedGallery = () => {
         try {
           await refreshGallery();
         } catch (error) {
-          console.log('Server refresh failed, but local image is displayed:', error.message);
+          // Server refresh failed, but local image is displayed
         }
       }, 2000);
 
@@ -426,7 +426,7 @@ const CombinedGallery = () => {
               const parsedImages = JSON.parse(savedImages);
               localUploads = parsedImages.filter(img => img.isLocalUpload === true);
             } catch (e) {
-              console.log('Error parsing localStorage images:', e);
+              // Error parsing localStorage images
             }
           }
           
@@ -442,7 +442,7 @@ const CombinedGallery = () => {
         }
       }
     } catch (error) {
-      console.log('Refresh failed:', error.message);
+      // Refresh failed
     } finally {
       // Auto-reset view to fit all leaves after refresh
       setTimeout(() => {

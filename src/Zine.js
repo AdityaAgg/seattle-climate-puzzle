@@ -37,9 +37,7 @@ const Zine = () => {
     { id: 11, src: '/images/zine/zine11.jpeg', alt: 'Zine Page 11' },
     { id: 12, src: '/images/zine/zine12.jpeg', alt: 'Zine Page 12' },
     { id: 13, src: '/images/zine/zine13.jpeg', alt: 'Zine Page 13' },
-    { id: 14, src: '/images/zine/zine14.jpeg', alt: 'Zine Page 14' },
-    { id: 15, src: '/images/zine/zine15.jpeg', alt: 'Zine Page 15' },
-    { id: 16, src: '/images/zine/zine16.jpeg', alt: 'Zine Page 16' }
+    { id: 14, src: '/images/zine/zine14.jpeg', alt: 'Zine Page 14' }
   ];
 
   const startScrolling = (direction) => {
@@ -115,15 +113,7 @@ const Zine = () => {
 
   // Debug scroll container dimensions
   React.useEffect(() => {
-    if (scrollContainerRef.current) {
-      const container = scrollContainerRef.current;
-      console.log('Scroll container dimensions:', {
-        scrollWidth: container.scrollWidth,
-        clientWidth: container.clientWidth,
-        offsetWidth: container.offsetWidth,
-        scrollLeft: container.scrollLeft
-      });
-    }
+    // Component mounted
   }, []);
 
   // Cleanup interval on unmount
