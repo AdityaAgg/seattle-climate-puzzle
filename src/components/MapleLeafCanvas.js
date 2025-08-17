@@ -170,7 +170,7 @@ const MapleLeafCanvas = ({
     
     const leafWidth = 120;
     const leafHeight = 120;
-    const minDistance = Math.max(leafWidth, leafHeight) * 1.2;
+    const minDistance = Math.max(leafWidth, leafHeight) * 1.3; // Increased spacing
     
     // Use a deterministic seed for consistent positioning
     const seed = 42; // Fixed seed for consistent results
@@ -186,26 +186,26 @@ const MapleLeafCanvas = ({
         return x - Math.floor(x);
       };
       
-      while (!validPosition && attempts < 100) {
+      while (!validPosition && attempts < 200) { // Increased attempts for better placement
         if (i === 0) {
           // Center position for first leaf
           newPos = {
-            x: canvasWidth / 2 + (seedRandom(seed, i) - 0.5) * 100,
-            y: canvasHeight / 2 + (seedRandom(seed, i + 1000) - 0.5) * 100
+            x: canvasWidth / 2 + (seedRandom(seed, i) - 0.5) * 80, // Reduced variation
+            y: canvasHeight / 2 + (seedRandom(seed, i + 1000) - 0.5) * 80
           };
         } else {
-          // Spiral pattern for subsequent leaves
+          // Improved spiral pattern with better spacing
           const layer = Math.floor(Math.sqrt(i));
-          const itemsInLayer = Math.max(1, layer * 6);
+          const itemsInLayer = Math.max(1, layer * 8); // Increased items per layer
           const itemIndex = i - Math.pow(Math.floor(Math.sqrt(i)), 2);
           
           const baseAngle = itemIndex * (Math.PI * 2) / itemsInLayer;
-          const radius = layer * 100 + seedRandom(seed, i + 2000) * 40;
+          const radius = layer * minDistance + seedRandom(seed, i + 2000) * 30; // Use minDistance for consistent spacing
           
           // Add organic variation using deterministic randomness
-          const flowOffset = Math.sin(i * 0.4) * 30;
-          const clusterOffset = Math.cos(i * 0.6) * 25;
-          const angleVariation = (seedRandom(seed, i + 3000) - 0.5) * 0.8;
+          const flowOffset = Math.sin(i * 0.4) * 20; // Reduced variation
+          const clusterOffset = Math.cos(i * 0.6) * 15; // Reduced variation
+          const angleVariation = (seedRandom(seed, i + 3000) - 0.5) * 0.6; // Reduced variation
           
           const finalAngle = baseAngle + angleVariation;
           
@@ -216,10 +216,11 @@ const MapleLeafCanvas = ({
         }
         
         // Ensure leaves are within bounds with padding
-        const padding = minDistance / 2 + 20;
+        const padding = minDistance / 2 + 30; // Increased padding
         newPos.x = Math.max(padding, Math.min(canvasWidth - padding, newPos.x));
         newPos.y = Math.max(padding, Math.min(canvasHeight - padding, newPos.y));
         
+        // Check for overlaps with all existing positions
         validPosition = true;
         for (const existingPos of positions) {
           const distance = Math.sqrt(
@@ -237,15 +238,23 @@ const MapleLeafCanvas = ({
       }
       
       if (!validPosition) {
-        // Fallback to grid positioning if organic placement fails
+        // Improved fallback to grid positioning with better spacing
         const gridCols = Math.floor(canvasWidth / minDistance);
+        const gridRows = Math.ceil(count / gridCols);
         const gridRow = Math.floor(i / gridCols);
         const gridCol = i % gridCols;
         
+        // Add some organic variation to grid positions
+        const variation = 20;
         newPos = {
-          x: gridCol * minDistance + minDistance / 2,
-          y: gridRow * minDistance + minDistance / 2
+          x: gridCol * minDistance + minDistance / 2 + (seedRandom(seed, i + 6000) - 0.5) * variation,
+          y: gridRow * minDistance + minDistance / 2 + (seedRandom(seed, i + 7000) - 0.5) * variation
         };
+        
+        // Ensure grid position is within bounds
+        const padding = minDistance / 2 + 20;
+        newPos.x = Math.max(padding, Math.min(canvasWidth - padding, newPos.x));
+        newPos.y = Math.max(padding, Math.min(canvasHeight - padding, newPos.y));
       }
       
       // Use deterministic randomness for rotation and scale
