@@ -3,6 +3,7 @@ import React, { useRef } from 'react';
 const UploadControls = ({ 
   uploading, 
   loading, 
+  refreshing,
   uploadProgress, 
   uploadStatus, 
   onImageUpload, 
@@ -21,13 +22,7 @@ const UploadControls = ({
     <div className="text-center mb-6">
       <h3 className="text-3xl font-bold text-red-800 mb-4">🍁 The Gallery</h3>
       
-      {/* Loading State */}
-      {loading && (
-        <div className="loading-state">
-          <div className="loading-spinner"></div>
-          <span className="text-blue-700 font-medium">Loading...</span>
-        </div>
-      )}
+
       
       {/* Upload Progress Bar */}
       {uploading && (
@@ -62,7 +57,7 @@ const UploadControls = ({
           onClick={onRefreshGallery}
           disabled={uploading || loading}
         >
-          🔄 Refresh
+          {refreshing ? '⏳' : '🔄'} Refresh
         </button>
         
         <button
