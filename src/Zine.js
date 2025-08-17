@@ -36,8 +36,6 @@ const Zine = () => {
     { id: 10, src: '/images/zine/zine10.jpeg', alt: 'Zine Page 10' },
     { id: 11, src: '/images/zine/zine11.jpeg', alt: 'Zine Page 11' },
     { id: 12, src: '/images/zine/zine12.jpeg', alt: 'Zine Page 12' },
-    { id: 13, src: '/images/zine/zine13.jpeg', alt: 'Zine Page 13' },
-    { id: 14, src: '/images/zine/zine14.jpeg', alt: 'Zine Page 14' }
   ];
 
   const startScrolling = (direction) => {
