@@ -26,7 +26,6 @@ const CombinedGallery = () => {
   const loadExistingPhotos = useCallback(async () => {
     try {
       setLoading(true);
-      console.log('Attempting to fetch photos from Cloudinary...');
       
       // Method 1: Try to fetch photos using the tag-based JSON endpoint
       try {
@@ -45,7 +44,6 @@ const CombinedGallery = () => {
         
         if (response.ok) {
           const data = await response.json();
-          console.log('Cloudinary JSON response:', data);
           
           if (data.resources && data.resources.length > 0) {
             const existingImages = data.resources.map((resource, index) => ({
@@ -65,17 +63,16 @@ const CombinedGallery = () => {
             
             setImages(existingImages);
             localStorage.setItem('mapleLeafGalleryImages', JSON.stringify(existingImages));
-            console.log(`Successfully loaded ${existingImages.length} photos from Cloudinary`);
             setLoading(false);
             return;
           } else {
-            console.log('No photos found in Cloudinary with maple-leaf tag');
+            // No photos found
           }
         } else {
-          console.log(`Cloudinary API returned ${response.status}: ${response.statusText}`);
+          // API returned error
         }
       } catch (apiError) {
-        console.log('Cloudinary API fetch failed:', apiError);
+        // API fetch failed
       }
       
       // Method 2: Try to load from localStorage as fallback
@@ -85,19 +82,17 @@ const CombinedGallery = () => {
           const parsedImages = JSON.parse(savedImages);
           if (Array.isArray(parsedImages) && parsedImages.length > 0) {
             setImages(parsedImages);
-            console.log(`Loaded ${parsedImages.length} photos from localStorage`);
             setLoading(false);
             return;
           }
         } catch (e) {
-          console.log('Error parsing localStorage images, starting fresh');
+          // Error parsing localStorage images
         }
       }
       
-      console.log('Gallery initialized - upload photos to see them as maple leaves!');
       setImages([]);
     } catch (error) {
-      console.error('Error initializing gallery:', error);
+      // Error initializing gallery
     } finally {
       setLoading(false);
     }
@@ -111,13 +106,11 @@ const CombinedGallery = () => {
   useEffect(() => {
     if (images.length > 0) {
       localStorage.setItem('mapleLeafGalleryImages', JSON.stringify(images));
-      console.log(`Saved ${images.length} images to localStorage`);
     }
   }, [images]);
 
   const uploadToCloudinary = async (file) => {
     try {
-      console.log('Starting upload for file:', file.name, file.size);
       setUploading(true);
       setUploadProgress(0);
       setUploadStatus('Preparing upload...');
@@ -127,9 +120,6 @@ const CombinedGallery = () => {
       formData.append('file', file);
       formData.append('upload_preset', CLOUDINARY_CONFIG.uploadPreset);
       formData.append('tags', 'maple-leaf'); // Add maple-leaf tag for organization
-
-      console.log('FormData created with upload preset:', CLOUDINARY_CONFIG.uploadPreset);
-      console.log('FormData created with maple-leaf tag');
 
       // Simulate upload progress
       const progressInterval = setInterval(() => {
@@ -146,23 +136,18 @@ const CombinedGallery = () => {
 
       // Upload to Cloudinary
       const uploadUrl = `${CLOUDINARY_CONFIG.apiUrl}/${CLOUDINARY_CONFIG.cloudName}/image/upload`;
-      console.log('Uploading to URL:', uploadUrl);
       
       const response = await fetch(uploadUrl, {
         method: 'POST',
         body: formData
       });
 
-      console.log('Upload response status:', response.status, response.statusText);
-
       if (!response.ok) {
         const errorText = await response.text();
-        console.error('Upload response error:', errorText);
         throw new Error(`Upload failed: ${response.status} ${response.statusText}`);
       }
 
       const data = await response.json();
-      console.log('Upload successful, response data:', data);
       
       // Clear progress interval and set to 100%
       clearInterval(progressInterval);
@@ -188,7 +173,6 @@ const CombinedGallery = () => {
         cloudinaryHeight: data.height
       };
 
-      console.log('Adding new image to gallery:', newImage);
       setImages(prev => [...prev, newImage]);
 
       // Show success message
@@ -205,7 +189,6 @@ const CombinedGallery = () => {
       
       return data.secure_url;
     } catch (error) {
-      console.error('Upload failed:', error);
       setUploading(false);
       setUploadProgress(0);
       setUploadStatus(`Upload failed: ${error.message}`);
@@ -242,7 +225,6 @@ const CombinedGallery = () => {
   };
 
   const refreshGallery = async () => {
-    console.log('Refreshing gallery...');
     // This will use cache busting to ensure fresh data
     await loadExistingPhotos();
   };
