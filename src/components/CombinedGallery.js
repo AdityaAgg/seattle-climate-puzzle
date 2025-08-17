@@ -126,9 +126,10 @@ const CombinedGallery = () => {
       const formData = new FormData();
       formData.append('file', file);
       formData.append('upload_preset', CLOUDINARY_CONFIG.uploadPreset);
+      formData.append('tags', 'maple-leaf'); // Add maple-leaf tag for organization
 
       console.log('FormData created with upload preset:', CLOUDINARY_CONFIG.uploadPreset);
-      console.log('Upload preset:', CLOUDINARY_CONFIG.uploadPreset);
+      console.log('FormData created with maple-leaf tag');
 
       // Simulate upload progress
       const progressInterval = setInterval(() => {
