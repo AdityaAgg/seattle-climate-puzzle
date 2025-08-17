@@ -240,7 +240,6 @@ const MapleLeafCanvas = ({
       if (!validPosition) {
         // Improved fallback to grid positioning with better spacing
         const gridCols = Math.floor(canvasWidth / minDistance);
-        const gridRows = Math.ceil(count / gridCols);
         const gridRow = Math.floor(i / gridCols);
         const gridCol = i % gridCols;
         

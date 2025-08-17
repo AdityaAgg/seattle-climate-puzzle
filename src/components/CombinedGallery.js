@@ -159,7 +159,6 @@ const CombinedGallery = () => {
       });
 
       if (!response.ok) {
-        const errorText = await response.text();
         throw new Error(`Upload failed: ${response.status} ${response.statusText}`);
       }
 
