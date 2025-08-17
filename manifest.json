@@ -1,7 +1,7 @@
 {
   "short_name": "Climate Puzzle",
   "name": "Seattle Climate Puzzle",
-  "description": "A community-driven project exploring climate action through art, photography, and local organizations in the Seattle region",
+  "description": "A community-driven project exploring climate action through art, photography, and local organizations in the Seattle region. Upload photos to transform them into maple leaves and discover local climate initiatives.",
   "icons": [
     {
       "src": "favicon.svg",
@@ -27,6 +27,11 @@
   ],
   "start_url": ".",
   "display": "standalone",
+  "orientation": "portrait-primary",
+  "scope": "/",
   "theme_color": "#8B4513",
-  "background_color": "#fffbeb"
+  "background_color": "#fffbeb",
+  "categories": ["education", "environment", "photography", "community"],
+  "lang": "en",
+  "dir": "ltr"
 }
