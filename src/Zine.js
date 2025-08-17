@@ -8,6 +8,7 @@ const Zine = () => {
   const [isScrollingLeft, setIsScrollingLeft] = useState(false);
   const [isScrollingRight, setIsScrollingRight] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [showScrollIndicator, setShowScrollIndicator] = useState(true);
   const scrollIntervalRef = useRef(null);
 
   // Check if device is mobile
@@ -268,6 +269,8 @@ const Zine = () => {
           onMouseLeave={handleMouseLeave}
           onMouseUp={handleMouseUp}
           onMouseMove={handleMouseMove}
+          onTouchStart={() => setShowScrollIndicator(false)}
+          onTouchMove={() => setShowScrollIndicator(false)}
         >
           {zinePhotos.map((photo) => (
             <img 
@@ -278,6 +281,28 @@ const Zine = () => {
             />
           ))}
         </div>
+        
+        {/* Mobile Scroll Indicator */}
+        {isMobile && showScrollIndicator && (
+          <div style={{
+            position: 'absolute',
+            top: '33.33%',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            background: 'rgba(0, 0, 0, 0.8)',
+            color: 'white',
+            padding: '10px 20px',
+            borderRadius: '25px',
+            fontSize: '16px',
+            fontWeight: '600',
+            zIndex: 10,
+            pointerEvents: 'none',
+            animation: 'fadeInOut 3s ease-in-out infinite',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)'
+          }}>
+            → Swipe to scroll
+          </div>
+        )}
       </div>
     </div>
   );

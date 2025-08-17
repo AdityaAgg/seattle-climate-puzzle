@@ -162,9 +162,10 @@ const CombinedGallery = () => {
       return;
     }
 
-    // Calculate canvas dimensions (same logic as MapleLeafCanvas)
-    const canvasWidth = Math.min(1200, window.innerWidth * 0.9);
-    const canvasHeight = Math.min(900, window.innerHeight * 0.7);
+    // Calculate canvas dimensions with mobile optimization
+    const isMobile = window.innerWidth <= 768;
+    const canvasWidth = isMobile ? window.innerWidth * 0.95 : Math.min(1200, window.innerWidth * 0.9);
+    const canvasHeight = isMobile ? window.innerHeight * 0.8 : Math.min(900, window.innerHeight * 0.7);
     
     // Find the bounding box of all leaves with proper margins
     let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
@@ -177,38 +178,40 @@ const CombinedGallery = () => {
         return x - Math.floor(x);
       };
       
-      // Calculate position (simplified version of the positioning logic)
-      const radius = 150;
+      // Calculate position with mobile-responsive sizing
+      const baseRadius = isMobile ? Math.min(canvasWidth, canvasHeight) * 0.15 : 150;
       const angle = (index / images.length) * 2 * Math.PI;
-      const flowOffset = seedRandom(seed, index + 2000) * 100;
-      const clusterOffset = seedRandom(seed, index + 3000) * 50;
+      const flowOffset = seedRandom(seed, index + 2000) * (isMobile ? 30 : 100);
+      const clusterOffset = seedRandom(seed, index + 3000) * (isMobile ? 20 : 50);
       
-      let x = canvasWidth / 2 + Math.cos(angle) * (radius + flowOffset) + clusterOffset;
-      let y = canvasHeight / 2 + Math.sin(angle) * (radius + flowOffset) + clusterOffset;
+      let x = canvasWidth / 2 + Math.cos(angle) * (baseRadius + flowOffset) + clusterOffset;
+      let y = canvasHeight / 2 + Math.sin(angle) * (baseRadius + flowOffset) + clusterOffset;
       
       // Add leaf size with extra margin to ensure full visibility
-      const leafSize = 80; // Increased leaf size estimate for better margins
+      const leafSize = isMobile ? 40 : 80; // Smaller leaf size on mobile
       minX = Math.min(minX, x - leafSize);
       maxX = Math.max(maxX, x + leafSize);
       minY = Math.min(minY, y - leafSize);
       maxY = Math.max(maxY, y + leafSize);
     });
     
-    // Calculate the required zoom to fit all leaves with generous margins
+    // Calculate the required zoom to fit all leaves with mobile-optimized margins
     const contentWidth = maxX - minX;
     const contentHeight = maxY - minY;
-    const margin = Math.max(120, Math.min(canvasWidth, canvasHeight) * 0.15); // Increased margin for better spacing
+    const margin = isMobile 
+      ? Math.max(60, Math.min(canvasWidth, canvasHeight) * 0.1) // Smaller margins on mobile
+      : Math.max(120, Math.min(canvasWidth, canvasHeight) * 0.15); // Larger margins on desktop
     
     const zoomX = (canvasWidth - margin * 2) / contentWidth;
     const zoomY = (canvasHeight - margin * 2) / contentHeight;
     const newZoom = Math.min(zoomX, zoomY, 1); // Don't zoom in more than 1x
     
     // Zoom out a bit more for better context and visibility
-    const zoomOutFactor = 0.8; // Zoom out by 20% for better framing
+    const zoomOutFactor = isMobile ? 0.9 : 0.8; // Less zoom out on mobile for better visibility
     const adjustedZoom = newZoom * zoomOutFactor;
     
     // Ensure we don't zoom out too much - maintain reasonable visibility
-    const minZoom = 0.2;
+    const minZoom = isMobile ? 0.4 : 0.2; // Higher minimum zoom on mobile
     const finalZoom = Math.max(adjustedZoom, minZoom);
     
     // Calculate center position
@@ -242,9 +245,10 @@ const CombinedGallery = () => {
 
   // Set initial centered view when component mounts
   useEffect(() => {
-    // Start with a centered, slightly zoomed-out view for better context
+    // Start with a centered, mobile-responsive view
+    const isMobile = window.innerWidth <= 768;
     setPan({ x: 0, y: 0 });
-    setZoom(0.8);
+    setZoom(isMobile ? 0.6 : 0.8); // Start more zoomed out on mobile
   }, []);
 
   // Handle window resize to maintain proper view
