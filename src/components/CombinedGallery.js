@@ -30,8 +30,17 @@ const CombinedGallery = () => {
       
       // Method 1: Try to fetch photos using the tag-based JSON endpoint
       try {
+        // Add cache busting with timestamp to ensure fresh data
+        const timestamp = Date.now();
         const response = await fetch(
-          `https://res.cloudinary.com/${CLOUDINARY_CONFIG.cloudName}/image/list/maple-leaf.json`
+          `https://res.cloudinary.com/${CLOUDINARY_CONFIG.cloudName}/image/list/maple-leaf.json?_t=${timestamp}`,
+          {
+            method: 'GET',
+            headers: {
+              'Cache-Control': 'no-cache',
+              'Pragma': 'no-cache'
+            }
+          }
         );
         
         if (response.ok) {
@@ -233,6 +242,7 @@ const CombinedGallery = () => {
 
   const refreshGallery = async () => {
     console.log('Refreshing gallery from Cloudinary...');
+    // This will use cache busting to ensure fresh data
     await loadExistingPhotos();
   };
 
